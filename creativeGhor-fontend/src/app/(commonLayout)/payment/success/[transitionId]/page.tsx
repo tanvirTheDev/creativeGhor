@@ -1,6 +1,6 @@
-import { useEffect } from "react";
-import { useRouter } from "next/router";
 import axios from "axios";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 export default function PaymentSuccessPage() {
   const router = useRouter();
@@ -10,7 +10,7 @@ export default function PaymentSuccessPage() {
     if (!txnId) return;
 
     axios
-      .post("http://localhost:5000/api/payment/success", {
+      .post("https://creativeghor-backend.onrender.com/api/payment/success", {
         txnId,
         amount: localStorage.getItem("paymentAmount"), // Retrieve amount
         userEmail: localStorage.getItem("userEmail"), // Retrieve user email
