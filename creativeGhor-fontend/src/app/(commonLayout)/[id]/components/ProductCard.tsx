@@ -1,39 +1,42 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { useInitiatePaymentMutation } from "@/redux/api/paymentApi";
-import { useGetUserByIdQuery } from "@/redux/api/user";
-import { getUserInfo } from "@/services/auth.services";
 import { TProudct } from "@/types";
 import { Button } from "antd";
 import { useState } from "react";
 import { ProductImageGallery } from "./ProductImageGallery";
 
-export function ProductCard({ data }: { data: TProudct }) {
-  const userData = getUserInfo() as any;
-  const { data: user } = useGetUserByIdQuery(userData?.userId);
-  console.log("user", user);
+export function ProductCard({ productData }: { productData: TProudct }) {
+  console.log("productData", productData);
 
-  const [initialPayment, { data: paymentData }] = useInitiatePaymentMutation();
+  // const userData = getUserInfo() as any;
+  // console.log("userData", userData);
 
-  console.log("email", user);
+  // const { data: user } = useGetUserByIdQuery(userData?);
+  // console.log("user", user);
+
+  // const [initialPayment, { productData: paymentproductData }] = useInitiatePaymentMutation();
+
+  // console.log("email", user);
   const discount = Math.round(
-    ((data?.price - (data?.salePrice ?? 0)) / data?.price) * 100
+    ((productData?.price - (productData?.salePrice ?? 0)) /
+      productData?.price) *
+      100
   );
 
   const [loading, setLoading] = useState(false);
 
   const handleBuyNow = async () => {
     setLoading(true);
-    // const initialData = {
-    //   amount: data.salePrice ?? data.price,
+    // const initialproductData = {
+    //   amount: productData.salePrice ?? productData.price,
     //   user_email: email,
     // };
     try {
-      // const response = await initialPayment(initialData);
+      // const response = await initialPayment(initialproductData);
       // console.log("response", response);
-      if (response.data.url) {
-        window.location.href = response.data.url;
-      }
+      // if (response.productData.url) {
+      //   window.location.href = response.productData.url;
+      // }
     } catch (error) {
       console.error("Payment error", error);
     }
@@ -54,28 +57,30 @@ export function ProductCard({ data }: { data: TProudct }) {
             </Badge>
           )}
           <div>
-            <ProductImageGallery images={data?.images} />
+            <ProductImageGallery images={productData?.images} />
           </div>
         </div>
 
         {/* Right Side - Product Details */}
         <CardContent className="flex flex-col">
-          <h2 className="text-2xl font-bold mb-3">{data?.title}</h2>
+          <h2 className="text-2xl font-bold mb-3">{productData?.title}</h2>
           <p className="text-red-500 mb-3">
-            <span className="font-semibold">{data?.category}</span>
+            <span className="font-semibold">{productData?.category}</span>
           </p>
           <p
             className={`font-semibold ${
-              data?.stock === "In Stock" ? "text-red-600" : "text-green-600"
+              productData?.stock === "In Stock"
+                ? "text-red-600"
+                : "text-green-600"
             }`}
           >
-            Status: {data?.stock}
+            Status: {productData?.stock}
           </p>
           {/* Key Features List */}
           <div className="mt-4">
             <h3 className="text-lg font-semibold">Key Features:</h3>
             <div className=" text-gray-700 mt-2">
-              {data?.features?.map((feature, index) => (
+              {productData?.features?.map((feature, index) => (
                 <ul
                   key={index}
                   className="text-sm space-y-2 list-disc list-inside"
@@ -93,10 +98,10 @@ export function ProductCard({ data }: { data: TProudct }) {
           {/* Pricing Section */}
           <div className="flex items-center gap-2 mt-4">
             <span className="text-2xl font-bold text-red-500">
-              {data?.price.toLocaleString()}৳
+              {productData?.price.toLocaleString()}৳
             </span>
             <span className="text-lg text-gray-500 line-through">
-              {data?.salePrice?.toLocaleString()}৳
+              {productData?.salePrice?.toLocaleString()}৳
             </span>
           </div>
 

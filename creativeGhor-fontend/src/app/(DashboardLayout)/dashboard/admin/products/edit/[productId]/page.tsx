@@ -9,6 +9,7 @@ import {
   useGetSingleProductsQuery,
   useUpdateProductMutation,
 } from "@/redux/api/productApi";
+import { TProudct } from "@/types";
 import { Button, message } from "antd";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -20,7 +21,7 @@ const EditProductForm = () => {
   const router = useRouter();
   const { productId } = useParams();
   // Store default values in state
-  const [defaultValues, setDefaultValues] = useState<any>(null);
+  const [defaultValues, setDefaultValues] = useState<TProudct | null>(null);
   const { data, isLoading } = useGetSingleProductsQuery(productId);
   console.log("singleProduct", data);
   console.log("isLoading", isLoading);
@@ -28,13 +29,11 @@ const EditProductForm = () => {
     useUpdateProductMutation();
   console.log("updateProduct", updateProductData);
 
-  const colors = ["Orange", "Blue", "Red"];
-  const sizes = ["S", "M", "L", "XL"];
-
   // Update default values when data is fetched
   useEffect(() => {
     if (data) {
       setDefaultValues({
+        _id: data?.data?._id || "",
         title: data?.data?.title || "",
         category: data?.data?.category || "",
         price: data?.data?.price || 0,

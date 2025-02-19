@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Select } from "antd"; // Adjust the import based on your UI library
 import { Controller, useFormContext } from "react-hook-form";
 type TSelectProps = {

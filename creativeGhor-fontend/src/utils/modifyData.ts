@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export const modifyData = (values: any) => {
   const formData = new FormData();
   formData.append("name", values.name);

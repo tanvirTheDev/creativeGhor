@@ -1,4 +1,5 @@
 "use client";
+
 import { useGetSingleProductsQuery } from "@/redux/api/productApi";
 import { useParams } from "next/navigation";
 import { ProductCard } from "./components/ProductCard";
@@ -17,7 +18,7 @@ export default function ProductPage() {
 
   return (
     <div className="p-10">
-      {<ProductCard key={data?.data?.id} data={data?.data} />}
+      {<ProductCard key={data?.data?.id} productData={data?.data} />}
     </div>
   );
 }

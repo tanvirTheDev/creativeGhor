@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import {
   useDeleteProductMutation,
@@ -21,7 +22,7 @@ const AllProducts = () => {
     useGetAllProductsQuery(undefined);
   const [deleteProductData] = useDeleteProductMutation();
 
-  const handleSearch = (e) => {
+  const handleSearch = (e: any) => {
     setSearchText(e.target.value);
   };
 
@@ -49,13 +50,13 @@ const AllProducts = () => {
       title: "Price",
       dataIndex: "price",
       key: "price",
-      render: (price) => `$${price.toLocaleString()}`,
+      render: (price: number) => `$${price.toLocaleString()}`,
     },
     {
       title: "Stock",
       dataIndex: "stock",
       key: "stock",
-      render: (stock) => (
+      render: (stock: string) => (
         <Tag color={stock === "In Stock" ? "red" : "green"}>{stock}</Tag>
       ),
     },
@@ -63,12 +64,12 @@ const AllProducts = () => {
       title: "Start Date",
       dataIndex: "updatedAt",
       key: "updatedAt",
-      render: (text) => formatDate(text),
+      render: (text: string) => formatDate(text),
     },
     {
       title: "Action",
       key: "action",
-      render: (_, record) => (
+      render: (_: unknown, record: TProudct) => (
         <div className="flex space-x-2">
           <Button icon={<EyeOutlined />} />
           <Link href={`/dashboard/admin/products/edit/${record._id}`}>

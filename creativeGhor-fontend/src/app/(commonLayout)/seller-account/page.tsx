@@ -17,6 +17,8 @@ export default function SellerRegister() {
       shopAddress: values.shopAddress,
       password: values.password,
     };
+    console.log(registerData);
+
     try {
       //   const response = await registerUser(registerData);
       //   console.log(response);

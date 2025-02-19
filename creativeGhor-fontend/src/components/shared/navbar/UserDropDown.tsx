@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { UserOutlined } from "@ant-design/icons";
 import { Button, Dropdown, MenuProps } from "antd";

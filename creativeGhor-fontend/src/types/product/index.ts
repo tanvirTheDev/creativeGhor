@@ -4,10 +4,6 @@ export type TProudct = {
   price: number;
   category?: string;
   salePrice?: number | null; // Allow null as a valid type
-  brand?: string;
-  colors: string[];
-  sizes: string[];
-  sku?: string;
   stock?: string;
   features?: string[];
   description?: string;

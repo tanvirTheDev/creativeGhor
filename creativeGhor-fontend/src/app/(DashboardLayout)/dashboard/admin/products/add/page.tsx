@@ -13,9 +13,6 @@ import { FieldValues } from "react-hook-form";
 const AddProductForm = () => {
   const [addProduct, { data }] = useCreateProductMutation();
   console.log(data);
-
-  const colors = ["Orange", "Blue", "Red"];
-  const sizes = ["S", "M", "L", "XL"];
   // Default form values
   const defaultValues = {
     title: "",

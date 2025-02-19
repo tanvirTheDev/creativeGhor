@@ -7,9 +7,9 @@ import Link from "next/link";
 export function ProductCard({
   _id,
   title,
-  price,
-  salePrice,
-  images,
+  price = 0,
+  salePrice = null,
+  images = [],
 }: TProductCard) {
   const discount = salePrice
     ? Math.round(((salePrice - price) / salePrice) * 100)
@@ -25,7 +25,7 @@ export function ProductCard({
         )}
         <div className="aspect-square overflow-hidden">
           <Image
-            src={images[0] || "/placeholder.svg"}
+            src={images?.[0] || "/placeholder.svg"}
             alt={title}
             width={400}
             height={400}

@@ -1,7 +1,7 @@
 "use client";
 import { Layout, Skeleton } from "antd";
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Content, Sider } = Layout;
 
 const DashboardSkeleton = () => {
   return (

@@ -2,7 +2,7 @@ import { Image as AntImage, Modal } from "antd";
 import Image from "next/image";
 import { useState } from "react";
 
-export const ProductImageGallery = ({ images }) => {
+export const ProductImageGallery = ({ images }: { images: string[] }) => {
   const [visible, setVisible] = useState(false);
   const [selectedImage, setSelectedImage] = useState(images[0]);
 
