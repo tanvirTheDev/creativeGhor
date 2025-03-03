@@ -160,5 +160,5 @@ This project is licensed under the **MIT License**.
 ---
 
 ## Contact
-For any inquiries, please contact [Your Name](mailto:ahamedtanvir374@gmail.com).
+For any inquiries, please contact [Tanvir Ahamed](mailto:ahamedtanvir374@gmail.com).
 
