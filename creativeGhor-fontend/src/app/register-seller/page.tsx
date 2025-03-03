@@ -3,6 +3,7 @@
 import EliteForm from "@/components/Form/EliteForm";
 import InputForm from "@/components/Form/InputForm";
 import { Button } from "@/components/ui/button";
+import { registerSeller } from "@/services/actions/registerSeller";
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { FieldValues } from "react-hook-form";
@@ -10,7 +11,7 @@ import { FieldValues } from "react-hook-form";
 export default function SellerRegister() {
   const handleSubmit = async (values: FieldValues) => {
     const registerData = {
-      name: `${values.customer.firstName} ${values.customer.lastName}`,
+      name: values.customer.name,
       email: values.customer.email,
       phoneNumber: values.customer.phoneNumber,
       shopName: values.shopName,
@@ -20,8 +21,8 @@ export default function SellerRegister() {
     console.log(registerData);
 
     try {
-      //   const response = await registerUser(registerData);
-      //   console.log(response);
+      const response = await registerSeller(registerData);
+      console.log(response);
     } catch (error) {
       console.log("Error:", error);
     }

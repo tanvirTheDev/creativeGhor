@@ -8,7 +8,7 @@ import { tagTypesList } from "../tag-types";
 export const baseApi = createApi({
   reducerPath: "api",
   baseQuery: axiosBaseQuery({
-    baseUrl: "https://creativeghor-backend.onrender.com/api/v1",
+    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/v1`,
   }),
   endpoints: () => ({}),
   tagTypes: tagTypesList,

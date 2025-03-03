@@ -68,6 +68,26 @@ export const getMenuItems = (role: UserRole) => {
           ],
         },
         {
+          key: "manage-sellers",
+          label: "Manage Sellers",
+          path: `/dashboard/${role}/sellers`,
+          icon: TeamOutlined, // 📌 Icon for Manage Sellers
+          child: [
+            {
+              key: "all-sellers",
+              label: "All Sellers",
+              path: `/dashboard/${role}/sellers`,
+              icon: UnorderedListOutlined, // 📌 Icon for All Sellers
+            },
+            {
+              key: "seller-details",
+              label: "Seller Details",
+              path: `/dashboard/${role}/sellers/details`,
+              icon: ReadOutlined, // 📌 Icon for Seller Details
+            },
+          ],
+        },
+        {
           key: "flash-sales",
           label: "Flash Sales",
           path: `/dashboard/${role}/flash-sales`,

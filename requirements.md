@@ -1,61 +1,66 @@
-# Requirements Document
+# Digital Products E-commerce Website
 
-## Project Name: Electronic Gadgets Shop
+## Project Overview
 
-### Project Description
-
-A dynamic e-commerce platform for electronic gadgets enthusiasts, featuring products such as Mobiles, Laptops, TVs, and Refrigerators. The platform emphasizes user engagement, seamless browsing, and an immersive shopping experience using advanced technologies like Next.js, MongoDB, and Express.js.
+A comprehensive e-commerce platform for digital products, featuring a **Seller Dashboard** and user-friendly functionalities. Built with **Next.js, MongoDB, and Express.js**, it ensures scalability, security, and performance.
 
 ---
 
 ## Functional Requirements
 
-1. **User Management**
+### 1. User Management
 
-   - User registration and login.
-   - JWT-based authentication.
-   - User roles: Admin and Customer.
+- **User Authentication:** JWT-based login and signup.
+- **User Roles:** Admin, Seller, and Customer.
+- **Profile Management:** Update user details and preferences.
 
-2. **Product Management**
-   - CRUD operations for products (Admin only).
-   - Categorize products by brand or category.
-   - Display detailed product information (images, title, description, price, brand/category, and ratings).
-3. **Flash Sale**
-   - Highlight products marked for flash sales.
-   - Include countdown timers for flash sale expiration.
-4. **Search and Filter**
+### 2. Product Management
 
-   - Search products by title or description.
-   - Filter by category, brand, price range, or ratings.
+- **CRUD Operations:** Sellers can manage their products.
+- **Product Details:** Images, title, description, price, brand, and ratings.
+- **Categorization:** Products grouped by brand and category.
 
-5. **Trending Products**
+### 3. Seller Dashboard
 
-   - Showcase top-rated products dynamically.
+- **Product Management:** Add, edit, and delete products.
+- **Sales Tracking:** View sales history and analytics.
 
-6. **Dashboard**
+### 4. Flash Sale
 
-   - Admin dashboard with product management features.
+- **Exclusive Discounts:** Limited-time product offers.
+- **Countdown Timer:** Display expiration time for deals.
 
-7. **Frontend Features**
+### 5. Search & Filter
 
-   - Static and dynamic routing for pages.
-   - Carousel and visually appealing layouts.
+- **Full-Text Search:** Search products by name, brand, or description.
+- **Advanced Filters:** Filter by category, brand, price range, and ratings.
 
-8. **Performance Features**
+### 6. Trending Products
 
-   - Implement SSG, SSR, and ISR for optimized loading and data updates.
+- **Dynamic Listings:** Showcase best-rated and most-purchased products.
 
-9. **Error Handling**
-   - Custom 404 pages.
+### 7. Dashboard
+
+- **Admin Dashboard:** Manage users, products, and sales.
+- **Seller Dashboard:** Track product performance.
+
+### 8. Performance & SEO
+
+- **Optimizations:** Implement **SSG, SSR, and ISR** for fast loading.
+- **SEO Strategies:** Improve search visibility.
+
+### 9. Error Handling
+
+- **Custom Pages:** 404 and error handling pages.
 
 ---
 
 ## Non-Functional Requirements
 
-1. **Scalability**: Ensure the platform supports a growing number of users and products.
-2. **Security**: Protect user data and transactions with JWT, secure database connections, and proper error handling.
-3. **Accessibility**: Ensure responsive design across devices.
-4. **Deployment**: Use Vercel or similar hosting platforms for frontend and deploy backend with services like cyclic.sh.
+1. **Scalability:** Supports growing traffic and data.
+2. **Security:** JWT authentication, secure API endpoints.
+3. **Accessibility:** Responsive across all devices.
+4. **Deployment:** Frontend on Vercel, Backend on cyclic.sh.
 
 ---
 
@@ -68,7 +73,7 @@ A dynamic e-commerce platform for electronic gadgets enthusiasts, featuring prod
   "name": "String",
   "email": "String",
   "password": "String",
-  "role": "String", // 'admin' or 'customer'
+  "role": "String", // 'admin', 'seller', 'customer'
   "createdAt": "Date",
   "updatedAt": "Date"
 }
@@ -86,6 +91,7 @@ A dynamic e-commerce platform for electronic gadgets enthusiasts, featuring prod
   "images": ["String"],
   "rating": "Number",
   "flashSale": "Boolean",
+  "sellerId": "ObjectId",
   "createdAt": "Date",
   "updatedAt": "Date"
 }
@@ -111,82 +117,6 @@ A dynamic e-commerce platform for electronic gadgets enthusiasts, featuring prod
 
 ---
 
-## Schema Design
-
-### User Schema
-
-```javascript
-const UserSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-  role: { type: String, enum: ["admin", "customer"], default: "customer" },
-  createdAt: { type: Date, default: Date.now },
-  updatedAt: { type: Date, default: Date.now },
-});
-```
-
-### Product Schema
-
-```javascript
-const ProductSchema = new mongoose.Schema({
-  title: { type: String, required: true },
-  description: { type: String, required: true },
-  price: { type: Number, required: true },
-  brand: { type: String, required: true },
-  category: { type: String, required: true },
-  images: [{ type: String }],
-  rating: { type: Number, default: 0 },
-  flashSale: { type: Boolean, default: false },
-  createdAt: { type: Date, default: Date.now },
-  updatedAt: { type: Date, default: Date.now },
-});
-```
-
-### Order Schema
-
-```javascript
-const OrderSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-  products: [
-    {
-      productId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Product",
-        required: true,
-      },
-      quantity: { type: Number, required: true },
-    },
-  ],
-  totalPrice: { type: Number, required: true },
-  status: {
-    type: String,
-    enum: ["pending", "completed", "cancelled"],
-    default: "pending",
-  },
-  createdAt: { type: Date, default: Date.now },
-  updatedAt: { type: Date, default: Date.now },
-});
-```
-
----
-
-## ER Diagram
-
-- **Entities**: User, Product, Order
-- **Relationships**:
-  - User places multiple Orders.
-  - Order contains multiple Products.
-  - Products belong to Categories or Brands.
-
-### Diagram Explanation
-
-1. A User can place multiple Orders.
-2. An Order can include multiple Products.
-3. Products are categorized by Brand or Category.
-
----
-
 ## API Endpoints
 
 ### User Endpoints
@@ -196,11 +126,11 @@ const OrderSchema = new mongoose.Schema({
 
 ### Product Endpoints
 
-- **GET** `/api/products`: Fetch all products with optional filters (brand, category, price, rating).
+- **GET** `/api/products`: Fetch all products with optional filters.
 - **GET** `/api/products/:id`: Fetch single product details.
-- **POST** `/api/products`: Add a new product (Admin only).
-- **PUT** `/api/products/:id`: Update product details (Admin only).
-- **DELETE** `/api/products/:id`: Delete a product (Admin only).
+- **POST** `/api/products`: Add a new product (Admin & Seller only).
+- **PUT** `/api/products/:id`: Update product details (Admin & Seller only).
+- **DELETE** `/api/products/:id`: Delete a product (Admin & Seller only).
 
 ### Flash Sale Endpoints
 
@@ -213,16 +143,3 @@ const OrderSchema = new mongoose.Schema({
 - **GET** `/api/orders/:id`: Fetch single order details.
 
 ---
-
-### EveryDay Tasks
-
-- **Date** - 2/11/2025
-- **Task** - show all products in fontend from backend
-- **Description** -
-- i use axios when i get all products by get method it show authoriztion error. that means now i need to authorization token send in backend. so now i use interceptor to add token in header.
-
-- token are set now. then i get all products and show in fontend.then i worked with edit, delete method. And Yesterday i already created a new product fuctionality.
-
-now question is that why i not use rtk query? why i use axios?
-
-- because axios provide a interceptor to add token in header. it like a middleware. so i can add it in axios interceptor and use it in all request.
