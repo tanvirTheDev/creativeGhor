@@ -28,7 +28,7 @@ const navigationItems = [
 
 export function Navbar() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [isSignInOpen, setIsSignInOpen] = useState(false);
+  const [, setIsSignInOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [cartItemCount] = useState(0);
