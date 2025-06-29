@@ -25,7 +25,7 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="h-screen bg-gray-50 p-6">
       <div className="mb-8 flex items-center gap-2 text-sm text-gray-500">
         <Link href="/" className="hover:text-gray-700">
           Home
@@ -64,33 +64,29 @@ export default function RegisterPage() {
               name="customer.name"
               placeholder="Name"
               required
-              className="rounded-lg border border-gray-300 p-3 w-full focus:ring-2 focus:ring-blue-500"
             />
             <InputForm
               type="email"
               name="customer.email"
               placeholder="Email"
               required
-              className="rounded-lg border border-gray-300 p-3 w-full focus:ring-2 focus:ring-blue-500"
             />
             <InputForm
               type="tel"
               name="customer.phoneNumber"
               placeholder="Phone Number"
               required
-              className="rounded-lg border border-gray-300 p-3 w-full focus:ring-2 focus:ring-blue-500"
             />
             <InputForm
               type="password"
               name="password"
               placeholder="Password"
               required
-              className="rounded-lg border border-gray-300 p-3 w-full focus:ring-2 focus:ring-blue-500"
             />
 
             <Button
               type="submit"
-              className="w-full bg-blue-600 text-white hover:bg-blue-700 rounded-lg py-3 focus:outline-none focus:ring-4 focus:ring-blue-200"
+              className="w-full h-12 bg-black text-white hover:bg-gray-800"
             >
               Create Account
             </Button>

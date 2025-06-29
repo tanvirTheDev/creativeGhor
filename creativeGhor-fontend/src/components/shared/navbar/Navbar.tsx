@@ -9,7 +9,6 @@ import { useState } from "react";
 import logo from "../../../../public/logo2.png";
 import { CartPanel } from "./Cart";
 
-import LoginPage from "@/app/login/page";
 import { SearchPanel } from "./SearchBar";
 
 const navigationItems = [
@@ -86,15 +85,17 @@ export function Navbar() {
               </Button>
 
               {/* Sign In */}
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setIsSignInOpen(true)}
-                className="flex items-center space-x-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100 transition-all duration-200 rounded-lg px-3 py-2"
-              >
-                <User className="h-5 w-5" />
-                <span className="hidden sm:inline">SIGN IN</span>
-              </Button>
+              <Link href="/login">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setIsSignInOpen(true)}
+                  className="flex items-center space-x-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100 transition-all duration-200 rounded-lg px-3 py-2"
+                >
+                  <User className="h-5 w-5" />
+                  <span className="hidden sm:inline">SIGN IN</span>
+                </Button>
+              </Link>
 
               {/* Cart */}
               <Button
@@ -138,7 +139,6 @@ export function Navbar() {
         isOpen={isSearchOpen}
         onClose={() => setIsSearchOpen(false)}
       />
-      <LoginPage isOpen={isSignInOpen} onClose={() => setIsSignInOpen(false)} />
       <CartPanel isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
     </>
   );

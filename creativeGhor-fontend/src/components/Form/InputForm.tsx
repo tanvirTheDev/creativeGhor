@@ -1,5 +1,5 @@
-import { Input } from "antd";
 import { Controller, useFormContext } from "react-hook-form";
+import { Input } from "../ui/input";
 // import { Input } from "../ui/input";
 type TInputProps = {
   placeholder?: string;
