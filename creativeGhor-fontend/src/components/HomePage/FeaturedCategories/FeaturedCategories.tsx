@@ -3,25 +3,6 @@ import { useGetAllProductsQuery } from "@/redux/api/productApi";
 import { TProductCategory } from "@/types";
 import { FeaturedCategoryCard } from "./CategoriesCard";
 
-const categories = [
-  {
-    title: "Men's Fashion",
-    image: "/images/categories/men.jpg",
-  },
-  {
-    title: "Women's Fashion",
-    image: "/images/categories/women.jpg",
-  },
-  {
-    title: "Electronics",
-    image: "/images/categories/electronics.jpg",
-  },
-  {
-    title: "Home & Living",
-    image: "/images/categories/home.jpg",
-  },
-];
-
 export const FeaturedCategories = () => {
   const { data, isLoading } = useGetAllProductsQuery(undefined);
 
