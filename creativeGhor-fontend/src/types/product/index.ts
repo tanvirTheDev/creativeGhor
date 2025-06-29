@@ -3,14 +3,19 @@ export type TProudct = {
   title: string;
   price: number;
   category?: string;
-  salePrice?: number | null; // Allow null as a valid type
+  salePrice?: number | null;
   stock?: string;
   features?: string[];
   description?: string;
-  images: string[]; // Array of image URLs from Cloudinary
+  images: string[];
 };
 
 export type TProductCard = Pick<
   TProudct,
   "_id" | "title" | "price" | "salePrice" | "images"
+>;
+
+export type TProductCategory = Pick<
+  TProudct,
+  "_id" | "title" | "category" | "images"
 >;

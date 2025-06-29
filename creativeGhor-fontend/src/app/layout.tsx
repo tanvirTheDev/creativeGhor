@@ -1,4 +1,5 @@
-import { Navbar } from "@/components/shared/navbar/Navbar";
+
+import { Navbar } from "@/components/shared/Navbar/Navbar";
 import Providers from "@/lib/Providers/Providers";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";

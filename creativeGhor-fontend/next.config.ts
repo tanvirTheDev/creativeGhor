@@ -2,7 +2,13 @@ import { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
-    domains: ["res.cloudinary.com"], // Add Cloudinary to allowed domains
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+        pathname: "/db7gm7o4g/**",
+      },
+    ],
   },
 };
 
