@@ -116,3 +116,26 @@ export async function generateStaticParams() {
   const posts = getAllBlogPosts();
   return posts.map((post) => ({ slug: post.slug }));
 }
+
+function renderContent(
+  content: { type: "heading" | "paragraph"; text: string }[]
+) {
+  return content.map((block, index) => {
+    switch (block.type) {
+      case "heading":
+        return (
+          <h2 key={index} className="text-2xl font-light text-black mt-8 mb-4">
+            {block.text}
+          </h2>
+        );
+      case "paragraph":
+        return (
+          <p key={index} className="text-gray-700 leading-relaxed mb-6">
+            {block.text}
+          </p>
+        );
+      default:
+        return null;
+    }
+  });
+}

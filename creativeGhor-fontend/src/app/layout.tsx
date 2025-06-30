@@ -1,4 +1,3 @@
-
 import { Navbar } from "@/components/shared/Navbar/Navbar";
 import Providers from "@/lib/Providers/Providers";
 import type { Metadata } from "next";
@@ -17,8 +16,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "CreativeGhor",
-  description: "CreativeGhor",
+  title: "QOMMERCE",
+  description: "QOMMERCE",
 };
 
 export default function RootLayout({
