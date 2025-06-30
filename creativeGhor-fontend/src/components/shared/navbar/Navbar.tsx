@@ -22,7 +22,7 @@ const navigationItems = [
   // Add more as needed
 ];
 
-export function Navbar() {
+export const Navbar = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [, setIsSignInOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -164,4 +164,4 @@ export function Navbar() {
       <CartPanel isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
     </>
   );
-}
+};
