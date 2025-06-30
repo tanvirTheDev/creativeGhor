@@ -1,5 +1,6 @@
 "use client";
 
+import { SkeletonCard } from "@/components/shared/SkeletonCard";
 import { useGetProductBySlugQuery } from "@/redux/api/productApi";
 import { useParams } from "next/navigation";
 import { ProductCard } from "../../[id]/components/ProductCard";
@@ -12,8 +13,8 @@ export default function ProductPage() {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center min-h-screen">
-        <div className="text-lg">Loading product...</div>
+      <div className="p-10">
+        <SkeletonCard />
       </div>
     );
   }

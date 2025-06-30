@@ -1,10 +1,11 @@
 "use client";
+import { SkeletonCard } from "@/components/shared/SkeletonCard";
 import { useGetAllProductsQuery } from "@/redux/api/productApi";
 import { TProductCard } from "@/types";
 import { ProductCard } from "./FeaturedCard";
 
 export default function FeaturedProduct() {
-  const { data } = useGetAllProductsQuery(undefined);
+  const { data, isLoading } = useGetAllProductsQuery(undefined);
   return (
     <div className="container mx-auto p-4 my-10">
       <div className="text-center mb-10">
@@ -14,9 +15,11 @@ export default function FeaturedProduct() {
         </h2>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 pt-5">
-        {data?.data?.map((product: TProductCard, index: number) => (
-          <ProductCard key={index} {...product} />
-        ))}
+        {isLoading
+          ? Array.from({ length: 8 }).map((_, i) => <SkeletonCard key={i} />)
+          : data?.data?.map((product: TProductCard, index: number) => (
+              <ProductCard key={index} {...product} />
+            ))}
       </div>
     </div>
   );

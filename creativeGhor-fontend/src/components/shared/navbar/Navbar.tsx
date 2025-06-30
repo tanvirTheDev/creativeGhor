@@ -19,6 +19,7 @@ const navigationItems = [
   "Kids",
   "Footwear",
   "Fragrance",
+  // Add more as needed
 ];
 
 export function Navbar() {
@@ -50,6 +51,13 @@ export function Navbar() {
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       All Categories
+                    </Link>
+                    <Link
+                      href="/blog"
+                      className="text-sm font-medium text-gray-700 hover:text-gray-900 py-2"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      Blog
                     </Link>
                     {navigationItems.map((item) => (
                       <Link
@@ -127,6 +135,12 @@ export function Navbar() {
                 className="text-sm font-bold text-gray-700 hover:text-gray-900 whitespace-nowrap py-3 border-b-2 border-transparent hover:border-gray-900 transition-all duration-300 ease-in-out transform hover:scale-105"
               >
                 All Categories
+              </Link>
+              <Link
+                href="/blog"
+                className="text-sm font-bold text-gray-700 hover:text-gray-900 whitespace-nowrap py-3 border-b-2 border-transparent hover:border-gray-900 transition-all duration-300 ease-in-out transform hover:scale-105"
+              >
+                Blog
               </Link>
               {navigationItems.map((item) => (
                 <Link

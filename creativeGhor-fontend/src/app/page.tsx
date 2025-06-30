@@ -4,6 +4,7 @@ import HeroSection from "@/components/HomePage/HeroSection/HeroSection";
 import { Footer } from "@/components/shared/Footer/Footer";
 
 import Ticker from "@/components/Ticker";
+import BlogPage from "./blog/page";
 
 export default function Home() {
   return (
@@ -13,6 +14,7 @@ export default function Home() {
       {/* <Banner /> */}
       <FeaturedCategories />
       <FeaturedProduct />
+      <BlogPage />
       <Footer />
     </div>
   );

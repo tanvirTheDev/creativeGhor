@@ -95,7 +95,6 @@ const AllProducts = () => {
           onChange={handleSearch}
           className="w-1/3"
         />
-        <Button type="primary">+ Add New</Button>
       </div>
       <Table
         columns={columns}

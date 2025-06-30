@@ -42,6 +42,7 @@ const EditProductForm = () => {
         features: data?.data?.features || [],
         description: data?.data?.description || "",
         images: data?.data?.images || [],
+        slug: data?.data?.slug || "",
       });
     }
   }, [data]); // Runs whenever `data` changes

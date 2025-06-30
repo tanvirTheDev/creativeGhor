@@ -12,13 +12,13 @@ export const FeaturedCategories = () => {
   }
 
   return (
-    <section className="w-full px-4 py-8 bg-gray-50">
+    <section className="w-full px-4 py-8 my-8 bg-gray-100">
       <div className="max-w-7xl mx-auto">
-        <h2 className="text-xl font-semibold text-gray-800 mb-6 text-center">
+        <h2 className="text-xl font-semibold text-gray-800 mb-8 text-center">
           Featured Categories
         </h2>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-8 gap-4">
           {data?.data?.map((category: TCategory) => (
             <Link key={category._id} href={`/category/${category.slug}`}>
               <FeaturedCategoryCard
