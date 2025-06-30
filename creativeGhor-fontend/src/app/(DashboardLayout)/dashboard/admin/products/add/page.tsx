@@ -83,7 +83,7 @@ const AddProductForm = () => {
               name="price"
               placeholder="Price"
               type="number"
-              className="bg-gray-100 border border-gray-300 text-black"
+              className="bg-gray-100 bofrder border-gray-300 text-black"
             />
             {/* Sale Price */}
             <InputForm
