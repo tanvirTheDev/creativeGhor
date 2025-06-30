@@ -1,8 +1,11 @@
+import { TCategory } from "../category";
+
 export type TProudct = {
   _id: string;
   title: string;
+  slug: string;
   price: number;
-  category?: string;
+  category?: TCategory | null;
   salePrice?: number | null;
   stock?: string;
   features?: string[];
@@ -12,10 +15,10 @@ export type TProudct = {
 
 export type TProductCard = Pick<
   TProudct,
-  "_id" | "title" | "price" | "salePrice" | "images"
+  "_id" | "title" | "slug" | "price" | "salePrice" | "images"
 >;
 
 export type TProductCategory = Pick<
   TProudct,
-  "_id" | "title" | "category" | "images"
+  "_id" | "title" | "slug" | "category" | "images"
 >;

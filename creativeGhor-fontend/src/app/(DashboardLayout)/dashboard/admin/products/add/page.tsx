@@ -6,43 +6,42 @@ import InputForm from "@/components/Form/InputForm";
 import KeyFeaturesForm from "@/components/Form/KeyFeaturesForm";
 import { SelectForm } from "@/components/Form/SelectForm";
 import TextareaForm from "@/components/Form/TextAreaForm";
+import { useGetAllCategoriesQuery } from "@/redux/api/categoryApi";
 import { useCreateProductMutation } from "@/redux/api/productApi";
-import { Button, message } from "antd";
-import { FieldValues } from "react-hook-form";
+import { TProudct } from "@/types";
+import { useRouter } from "next/navigation";
 
 const AddProductForm = () => {
-  const [addProduct, { data }] = useCreateProductMutation();
-  console.log(data);
-  // Default form values
+  const router = useRouter();
+  const [createProduct] = useCreateProductMutation();
+  const { data: categories } = useGetAllCategoriesQuery();
+
   const defaultValues = {
     title: "",
     category: "",
-    price: null,
-    salePrice: null,
-    brand: "",
-    colors: ["Red"], // Default selected color
-    sizes: ["M"], // Default selected size
-    sku: "",
-    stock: "inStock",
-    features: [],
+    price: "",
+    salePrice: "",
+    stock: "",
     description: "",
+    features: [],
     images: [],
   };
-  const handleSubmit = async (values: FieldValues) => {
-    console.log(values);
-    const productData = {
-      ...values,
-      price: parseFloat(values.price), // Corrected syntax
-      salePrice: parseFloat(values.salePrice), // Corrected syntax
-    };
+
+  const handleSubmit = async (data: Partial<TProudct>) => {
     try {
-      const response = await addProduct(productData);
-      console.log(response);
-    } catch (error) {
-      console.error("Error submitting form:", error);
-      message.error("An error occurred while adding the product.");
+      await createProduct(data).unwrap();
+      alert("Product created successfully");
+      router.push("/dashboard/admin/products");
+    } catch {
+      alert("Failed to create product");
     }
   };
+
+  const categoryOptions =
+    categories?.data?.map((category) => ({
+      value: category._id,
+      label: category.name,
+    })) || [];
 
   return (
     <div className="bg-white text-black p-6 rounded-xl shadow-lg max-w-4xl mx-auto">
@@ -75,12 +74,7 @@ const AddProductForm = () => {
             name="category"
             placeholder="Choose category"
             className="w-full bg-gray-100 text-black"
-            options={[
-              { value: "Bannar", label: "Bannar" },
-              { value: "Business Card", label: "Business Card" },
-              { value: "Calender", label: "Calender" },
-              { value: "Poster", label: "Poster" },
-            ]}
+            options={categoryOptions}
           />
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -111,23 +105,29 @@ const AddProductForm = () => {
           />
           {/* Key Features */}
           <KeyFeaturesForm name="features" />
-
           {/* Description */}
           <TextareaForm
-            placeholder="Short description about product"
             name="description"
+            placeholder="Enter product description"
+            className="w-full bg-gray-100 border border-gray-300 text-black"
             row={4}
-            className="bg-gray-100 border border-gray-300 text-black"
           />
-          <p className="text-gray-600 text-xs">Do not exceed 100 characters.</p>
+        </div>
 
-          {/* Buttons */}
-          <div className="flex justify-end gap-4">
-            <Button danger>Cancel</Button>
-            <Button type="primary" htmlType="submit">
-              Add Product
-            </Button>
-          </div>
+        <div className="flex gap-4 mt-8">
+          <button
+            type="submit"
+            className="flex-1 bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            Create Product
+          </button>
+          <button
+            type="button"
+            onClick={() => router.push("/dashboard/admin/products")}
+            className="flex-1 bg-gray-300 text-gray-700 py-3 px-6 rounded-lg hover:bg-gray-400 transition-colors"
+          >
+            Cancel
+          </button>
         </div>
       </EliteForm>
     </div>

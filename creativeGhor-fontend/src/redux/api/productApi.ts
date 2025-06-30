@@ -10,6 +10,20 @@ const productApi = baseApi.injectEndpoints({
       }),
       providesTags: [tagTypes.product],
     }),
+    getProductsByCategory: build.query({
+      query: (category: string) => ({
+        url: `/products/category/${category}`,
+        method: "GET",
+      }),
+      providesTags: [tagTypes.product],
+    }),
+    getProductsByCategorySlug: build.query({
+      query: (slug: string) => ({
+        url: `/products/category/slug/${slug}`,
+        method: "GET",
+      }),
+      providesTags: [tagTypes.product],
+    }),
     getSingleProducts: build.query({
       query: (_id) => {
         console.log("productId Inside query", _id);
@@ -18,6 +32,13 @@ const productApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
+      providesTags: [tagTypes.product],
+    }),
+    getProductBySlug: build.query({
+      query: (slug: string) => ({
+        url: `/product/slug/${slug}`,
+        method: "GET",
+      }),
       providesTags: [tagTypes.product],
     }),
     createProduct: build.mutation({
@@ -58,8 +79,11 @@ const productApi = baseApi.injectEndpoints({
 
 export const {
   useGetAllProductsQuery,
+  useGetProductsByCategoryQuery,
+  useGetProductsByCategorySlugQuery,
   useCreateProductMutation,
   useUpdateProductMutation,
   useDeleteProductMutation,
   useGetSingleProductsQuery,
+  useGetProductBySlugQuery,
 } = productApi;

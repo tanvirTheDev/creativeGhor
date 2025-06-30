@@ -9,6 +9,7 @@ import {
   ReadOutlined,
   SettingOutlined,
   ShoppingCartOutlined,
+  TagsOutlined,
   TeamOutlined,
   UnorderedListOutlined,
   UploadOutlined,
@@ -40,6 +41,12 @@ export const getMenuItems = (role: UserRole) => {
           label: "Dashboard",
           path: `/dashboard`,
           icon: AppstoreOutlined,
+        },
+        {
+          key: "manage-categories",
+          label: "Manage Categories",
+          path: `/dashboard/${role}/categories`,
+          icon: TagsOutlined,
         },
         {
           key: "manage-products",

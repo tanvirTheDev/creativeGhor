@@ -5,8 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 
 export function ProductCard({
-  _id,
   title,
+  slug,
   price = 0,
   salePrice = null,
   images = [],
@@ -34,7 +34,7 @@ export function ProductCard({
         </div>
       </div>
       <CardContent className="p-4">
-        <Link href={`/${_id}`}>
+        <Link href={`/product/${slug}`}>
           <h3 className="font-medium text-sm mb-2 line-clamp-2 h-10">
             {title}
           </h3>

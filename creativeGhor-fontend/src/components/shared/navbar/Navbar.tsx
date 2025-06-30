@@ -19,11 +19,6 @@ const navigationItems = [
   "Kids",
   "Footwear",
   "Fragrance",
-  "Accessories",
-  "Furniture",
-  "Gift Card",
-  "CottoCool Technology",
-  "Apps",
 ];
 
 export function Navbar() {
@@ -49,6 +44,13 @@ export function Navbar() {
                 </SheetTrigger>
                 <SheetContent side="left" className="w-80">
                   <div className="flex flex-col space-y-4 mt-8">
+                    <Link
+                      href="/category/all"
+                      className="text-sm font-medium text-gray-700 hover:text-gray-900 py-2"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      All Categories
+                    </Link>
                     {navigationItems.map((item) => (
                       <Link
                         key={item}
@@ -120,11 +122,17 @@ export function Navbar() {
         <div className="border-t border-gray-100">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="hidden md:flex items-center justify-center space-x-8 h-12 overflow-x-auto scrollbar-hide">
+              <Link
+                href="/category/all"
+                className="text-sm font-bold text-gray-700 hover:text-gray-900 whitespace-nowrap py-3 border-b-2 border-transparent hover:border-gray-900 transition-all duration-300 ease-in-out transform hover:scale-105"
+              >
+                All Categories
+              </Link>
               {navigationItems.map((item) => (
                 <Link
                   key={item}
                   href="#"
-                  className="text-sm font-medium text-gray-700 hover:text-gray-900 whitespace-nowrap py-3 border-b-2 border-transparent hover:border-gray-900 transition-all duration-300 ease-in-out transform hover:scale-105"
+                  className="text-sm font-bold text-gray-700 hover:text-gray-900 whitespace-nowrap py-3 border-b-2 border-transparent hover:border-gray-900 transition-all duration-300 ease-in-out transform hover:scale-105"
                 >
                   {item}
                 </Link>

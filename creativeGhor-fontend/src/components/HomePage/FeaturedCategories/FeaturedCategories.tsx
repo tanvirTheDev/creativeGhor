@@ -1,16 +1,15 @@
 "use client";
-import { useGetAllProductsQuery } from "@/redux/api/productApi";
-import { TProductCategory } from "@/types";
+import { useGetAllCategoriesQuery } from "@/redux/api/categoryApi";
+import { TCategory } from "@/types/category";
+import Link from "next/link";
 import { FeaturedCategoryCard } from "./CategoriesCard";
 
 export const FeaturedCategories = () => {
-  const { data, isLoading } = useGetAllProductsQuery(undefined);
+  const { data, isLoading } = useGetAllCategoriesQuery();
 
   if (isLoading) {
-    return <p>isLoding</p>;
+    return <p>Loading categories...</p>;
   }
-
-  console.log(data);
 
   return (
     <section className="w-full px-4 py-8 bg-gray-50">
@@ -20,12 +19,13 @@ export const FeaturedCategories = () => {
         </h2>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-          {data?.data?.map((category: TProductCategory) => (
-            <FeaturedCategoryCard
-              key={category.title}
-              category={category.category}
-              image={category.images[0]}
-            />
+          {data?.data?.map((category: TCategory) => (
+            <Link key={category._id} href={`/category/${category.slug}`}>
+              <FeaturedCategoryCard
+                category={category.name}
+                image={category.image || "/images/placeholder-category.jpg"}
+              />
+            </Link>
           ))}
         </div>
       </div>
