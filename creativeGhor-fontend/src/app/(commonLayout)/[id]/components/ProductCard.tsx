@@ -1,8 +1,10 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
+import { addToCart } from "@/redux/cartSlice";
 import { TProudct } from "@/types";
 import { Button } from "antd";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { ProductImageGallery } from "./ProductImageGallery";
 
 export function ProductCard({ productData }: { productData: TProudct }) {
@@ -13,6 +15,7 @@ export function ProductCard({ productData }: { productData: TProudct }) {
   );
 
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
 
   const handleBuyNow = async () => {
     setLoading(true);
@@ -22,6 +25,10 @@ export function ProductCard({ productData }: { productData: TProudct }) {
       console.error("Payment error", error);
     }
     setLoading(false);
+  };
+
+  const handleAddToCart = () => {
+    dispatch(addToCart({ ...productData, quantity: 1 }));
   };
 
   return (
@@ -97,6 +104,14 @@ export function ProductCard({ productData }: { productData: TProudct }) {
                 className="border-gray-300 w-full sm:w-auto"
               >
                 View Info
+              </Button>
+              <Button
+                type="primary"
+                size="middle"
+                className="bg-blue-600 hover:bg-blue-800 w-full sm:w-auto"
+                onClick={handleAddToCart}
+              >
+                Add to Cart
               </Button>
               <Button
                 type="primary"

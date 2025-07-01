@@ -2,13 +2,15 @@
 
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { getUserInfo, isUserLoggedIn } from "@/services/auth.services";
 import { Menu, Search, ShoppingBag, User } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import logo from "../../../../public/logo2.png";
 import { CartPanel } from "./Cart";
-
 import { SearchPanel } from "./SearchBar";
 
 const navigationItems = [
@@ -27,7 +29,28 @@ export const Navbar = () => {
   const [, setIsSignInOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [cartItemCount] = useState(0);
+  const cartItemCount = useSelector((state: any) =>
+    state.cart.items.reduce(
+      (total: number, item: any) => total + item.quantity,
+      0
+    )
+  );
+
+  const router = useRouter();
+  const isLoggedIn =
+    typeof window !== "undefined" && isUserLoggedIn && isUserLoggedIn();
+  const userInfo =
+    typeof window !== "undefined" && getUserInfo && getUserInfo();
+  const userRole = userInfo?.role as string;
+  const userName = userInfo?.name as string;
+
+  const handleDashboardClick = () => {
+    if (userRole === "admin") {
+      router.push("/dashboard/admin");
+    } else {
+      router.push("/dashboard/user");
+    }
+  };
 
   return (
     <>
@@ -94,18 +117,36 @@ export const Navbar = () => {
                 <span className="hidden sm:inline">Search</span>
               </Button>
 
-              {/* Sign In */}
-              <Link href="/login">
+              {/* Sign In or User/Admin Name */}
+              {isLoggedIn ? (
                 <Button
                   variant="ghost"
                   size="sm"
-                  onClick={() => setIsSignInOpen(true)}
+                  onClick={handleDashboardClick}
                   className="flex items-center space-x-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100 transition-all duration-200 rounded-lg px-3 py-2"
                 >
                   <User className="h-5 w-5" />
-                  <span className="hidden sm:inline">SIGN IN</span>
+                  <span className="hidden sm:inline">
+                    {userName
+                      ? userName
+                      : userRole === "admin"
+                      ? "Admin"
+                      : "User"}
+                  </span>
                 </Button>
-              </Link>
+              ) : (
+                <Link href="/login">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setIsSignInOpen(true)}
+                    className="flex items-center space-x-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100 transition-all duration-200 rounded-lg px-3 py-2"
+                  >
+                    <User className="h-5 w-5" />
+                    <span className="hidden sm:inline">SIGN IN</span>
+                  </Button>
+                </Link>
+              )}
 
               {/* Cart */}
               <Button

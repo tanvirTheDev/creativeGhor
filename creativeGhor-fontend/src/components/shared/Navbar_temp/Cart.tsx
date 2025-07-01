@@ -1,12 +1,15 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import type React from "react";
 
 import { Button } from "@/components/ui/button";
+import { clearCart, updateQuantity } from "@/redux/cartSlice";
+import type { RootState } from "@/redux/store";
 import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
+import Image from "next/image";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 interface CartPanelProps {
   isOpen: boolean;
@@ -33,8 +36,12 @@ export function CartPanel({ isOpen, onClose }: CartPanelProps) {
     }
   };
 
-  const cartItems: any[] = []; // Empty cart for demo
-  const subtotal = 0;
+  // Get cart items from Redux
+  const cartItems = useSelector((state: RootState) => state.cart.items);
+  const subtotal = cartItems.reduce(
+    (sum, item) => sum + (item.salePrice ?? item.price) * item.quantity,
+    0
+  );
   const currency = "BDT";
 
   const handleViewBag = () => {
@@ -46,6 +53,8 @@ export function CartPanel({ isOpen, onClose }: CartPanelProps) {
     console.log("Navigate to checkout");
     // Implement checkout logic
   };
+
+  const dispatch = useDispatch();
 
   if (!isOpen && !isAnimating) return null;
 
@@ -82,9 +91,21 @@ export function CartPanel({ isOpen, onClose }: CartPanelProps) {
               <h2 className="text-lg font-semibold">
                 Shopping Bag ({cartItems.length})
               </h2>
-              <Button variant="ghost" size="icon" onClick={onClose}>
-                <X className="h-6 w-6" />
-              </Button>
+              <div className="flex gap-2">
+                {cartItems.length > 0 && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => dispatch(clearCart())}
+                    className="text-xs px-2 py-1 border-gray-400"
+                  >
+                    Clear Cart
+                  </Button>
+                )}
+                <Button variant="ghost" size="icon" onClick={onClose}>
+                  <X className="h-6 w-6" />
+                </Button>
+              </div>
             </motion.div>
 
             {/* Cart Content */}
@@ -111,13 +132,70 @@ export function CartPanel({ isOpen, onClose }: CartPanelProps) {
                   <div className="space-y-4">
                     {cartItems.map((item, index) => (
                       <motion.div
-                        key={index}
+                        key={item._id}
                         initial={{ x: 20, opacity: 0 }}
                         animate={{ x: 0, opacity: 1 }}
                         transition={{ delay: 0.3 + index * 0.1, duration: 0.3 }}
-                        className="border-b pb-4"
+                        className="border-b pb-4 flex items-center gap-4"
                       >
-                        {/* Cart item component would go here */}
+                        <Image
+                          src={item.images[0]}
+                          alt={item.title}
+                          className="w-16 h-16 object-cover rounded"
+                          width={64}
+                          height={64}
+                        />
+                        <div className="flex-1">
+                          <div className="font-semibold">{item.title}</div>
+                          <div className="text-sm text-gray-500 flex items-center gap-2 mt-1">
+                            <Button
+                              variant="outline"
+                              size="icon"
+                              className="w-6 h-6 p-0 text-lg"
+                              onClick={() =>
+                                item.quantity > 1 &&
+                                dispatch(
+                                  updateQuantity({
+                                    id: item._id,
+                                    quantity: item.quantity - 1,
+                                  })
+                                )
+                              }
+                              disabled={item.quantity <= 1}
+                            >
+                              -
+                            </Button>
+                            <span className="mx-2 min-w-[24px] text-center">
+                              {item.quantity}
+                            </span>
+                            <Button
+                              variant="outline"
+                              size="icon"
+                              className="w-6 h-6 p-0 text-lg"
+                              onClick={() =>
+                                dispatch(
+                                  updateQuantity({
+                                    id: item._id,
+                                    quantity: item.quantity + 1,
+                                  })
+                                )
+                              }
+                            >
+                              +
+                            </Button>
+                            <span className="ml-2">
+                              ×{" "}
+                              {(item.salePrice ?? item.price).toLocaleString()}{" "}
+                              BDT
+                            </span>
+                          </div>
+                        </div>
+                        <div className="font-bold">
+                          {(
+                            item.quantity * (item.salePrice ?? item.price)
+                          ).toLocaleString()}{" "}
+                          BDT
+                        </div>
                       </motion.div>
                     ))}
                   </div>
@@ -133,7 +211,7 @@ export function CartPanel({ isOpen, onClose }: CartPanelProps) {
               >
                 <div className="text-center">
                   <p className="font-semibold">
-                    Subtotal: {subtotal} {currency}
+                    Subtotal: {subtotal.toLocaleString()} {currency}
                   </p>
                 </div>
 

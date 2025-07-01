@@ -1,7 +1,13 @@
-import { configureStore } from "@reduxjs/toolkit";
-
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { baseApi } from "./api/baseApi";
-import { reducer } from "./rootReducer";
+import { cartReducer } from "./cartSlice";
+import { reducer as rootReducer } from "./rootReducer";
+
+const reducer = combineReducers({
+  ...rootReducer,
+  cart: cartReducer,
+});
+
 export const store = configureStore({
   reducer,
   middleware: (getDefaultMiddleware) =>

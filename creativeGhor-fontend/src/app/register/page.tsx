@@ -4,11 +4,15 @@ import EliteForm from "@/components/Form/EliteForm";
 import InputForm from "@/components/Form/InputForm";
 import { Button } from "@/components/ui/button";
 import { registerUser } from "@/services/actions/registerUser";
+import { storeUserInfo } from "@/services/auth.services";
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { FieldValues } from "react-hook-form";
 
 export default function RegisterPage() {
+  const router = useRouter();
+
   const handleSubmit = async (values: FieldValues) => {
     const registerData = {
       name: `${values.customer.firstName} ${values.customer.lastName}`,
@@ -18,7 +22,10 @@ export default function RegisterPage() {
     };
     try {
       const response = await registerUser(registerData);
-      console.log(response);
+      if (response?.token) {
+        storeUserInfo({ accessToken: response.token });
+        router.push("/dashboard");
+      }
     } catch (error) {
       console.log("Error:", error);
     }
