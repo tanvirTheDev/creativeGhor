@@ -4,8 +4,12 @@ import type React from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useGetProductsBySearchQuery } from "@/redux/api/productApi";
+import type { TProudct } from "@/types/product";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, X } from "lucide-react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 interface SearchPanelProps {
@@ -15,6 +19,16 @@ interface SearchPanelProps {
 
 export function SearchPanel({ isOpen, onClose }: SearchPanelProps) {
   const [searchQuery, setSearchQuery] = useState("");
+  const router = useRouter();
+
+  // Fetch products by search query
+  const { data, isLoading, isError } = useGetProductsBySearchQuery(
+    searchQuery,
+    {
+      skip: !searchQuery.trim(),
+    }
+  );
+  const products = data?.data || [];
 
   useEffect(() => {
     if (isOpen) {
@@ -24,25 +38,13 @@ export function SearchPanel({ isOpen, onClose }: SearchPanelProps) {
     }
   }, [isOpen]);
 
-  const suggestedSearches = [
-    {
-      title: "You can search for product codes -",
-      subtitle: "222514 or 225124",
-    },
-    {
-      title: "You can search for product collections -",
-      subtitle: "Premium or Platinum",
-    },
-    {
-      title: "You can search for product categories -",
-      subtitle: "Panjabi or Trouser",
-    },
-  ];
-
   const handleSearch = () => {
     if (searchQuery.trim()) {
-      console.log("Searching for:", searchQuery);
-      onClose();
+      // If there are results, go to the first one
+      if (products.length > 0) {
+        router.push(`/product/${products[0].slug}`);
+        onClose();
+      }
     }
   };
 
@@ -132,35 +134,55 @@ export function SearchPanel({ isOpen, onClose }: SearchPanelProps) {
                 </motion.div>
               </div>
 
-              {/* Suggested Searches */}
-              <div className="space-y-4">
-                <h3 className="font-semibold text-center">
-                  Suggested Searches:
-                </h3>
-
-                <div className="space-y-4">
-                  {suggestedSearches.map((suggestion, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ x: 20, opacity: 0 }}
-                      animate={{ x: 0, opacity: 1 }}
-                      transition={{ delay: 0.3 + index * 0.1, duration: 0.3 }}
-                      whileHover={{ scale: 1.02, backgroundColor: "#f9fafb" }}
-                      className="text-center space-y-1 p-3 rounded-lg cursor-pointer transition-colors duration-200"
-                      onClick={() => {
-                        setSearchQuery(suggestion.subtitle);
-                      }}
-                    >
-                      <p className="text-sm text-gray-700">
-                        {suggestion.title}
-                      </p>
-                      <p className="text-sm font-medium">
-                        {suggestion.subtitle}
-                      </p>
-                    </motion.div>
-                  ))}
+              {/* Search Results */}
+              {searchQuery.trim() && (
+                <div className="mt-4">
+                  {isLoading ? (
+                    <div className="text-center text-gray-400">
+                      Searching...
+                    </div>
+                  ) : isError ? (
+                    <div className="text-center text-red-500">
+                      Error loading results
+                    </div>
+                  ) : products.length === 0 ? (
+                    <div className="text-center text-gray-400">
+                      No products found
+                    </div>
+                  ) : (
+                    <div className="space-y-2 max-h-64 overflow-y-auto">
+                      {products.map((product: TProudct) => (
+                        <div
+                          key={product._id}
+                          className="flex items-center gap-3 p-2 rounded hover:bg-gray-100 cursor-pointer transition"
+                          onClick={() => {
+                            router.push(`/product/${product.slug}`);
+                            onClose();
+                          }}
+                        >
+                          {product.images && product.images[0] && (
+                            <Image
+                              src={product.images[0]}
+                              alt={product.title}
+                              width={40}
+                              height={40}
+                              className="w-10 h-10 object-cover rounded"
+                            />
+                          )}
+                          <div className="flex-1">
+                            <div className="font-medium text-gray-800 text-sm">
+                              {product.title}
+                            </div>
+                            <div className="text-xs text-gray-500">
+                              {product.price?.toLocaleString()} BDT
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
-              </div>
+              )}
             </motion.div>
           </motion.div>
         </motion.div>

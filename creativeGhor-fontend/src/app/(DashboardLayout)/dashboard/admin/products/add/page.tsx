@@ -70,6 +70,7 @@ const AddProductForm = () => {
           <p className="text-gray-600 text-xs">Do not exceed 60 characters.</p>
 
           {/* Category */}
+          <h2 className="text-gray-600 font-semibold">Add Category</h2>
           <SelectForm
             name="category"
             placeholder="Choose category"

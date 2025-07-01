@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import type React from "react";
@@ -49,9 +50,45 @@ export function CartPanel({ isOpen, onClose }: CartPanelProps) {
     // Implement navigation to cart page
   };
 
-  const handleCheckout = () => {
-    console.log("Navigate to checkout");
-    // Implement checkout logic
+  const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+  const FRONTEND_URL = process.env.NEXT_PUBLIC_FRONTEND_URL;
+
+  const handleCheckout = async () => {
+    try {
+      // Prepare order/cart info
+      const productNames = cartItems.map((item) => item.title).join(", ");
+      const customerInfo = {
+        cus_name: "Test User",
+        cus_email: "test@example.com",
+        cus_add1: "Dhaka",
+        cus_phone: "01711111111",
+      };
+      const tran_id = Date.now().toString();
+      const response = await fetch(`${API_BASE_URL}/payment/initiate`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          amount: subtotal,
+          currency: "BDT",
+          tran_id: tran_id,
+          success_url: `${FRONTEND_URL}/payment/success/${tran_id}`,
+          fail_url: `${FRONTEND_URL}/payment/fail/${tran_id}`,
+          cancel_url: `${FRONTEND_URL}/payment/cancel/${tran_id}`,
+          shipping_method: "NO",
+          product_name: productNames,
+          product_profile: "general",
+          ...customerInfo,
+        }),
+      });
+      const data = await response.json();
+      if (data.url) {
+        window.location.href = data.url; // Redirect to SSLCOMMERZ payment gateway
+      } else {
+        alert("Failed to initiate payment.");
+      }
+    } catch (error) {
+      alert("Error initiating payment.");
+    }
   };
 
   const dispatch = useDispatch();
@@ -215,20 +252,7 @@ export function CartPanel({ isOpen, onClose }: CartPanelProps) {
                   </p>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                  <motion.div
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    <Button
-                      variant="outline"
-                      onClick={handleViewBag}
-                      className="w-full h-12 border-black text-black hover:bg-gray-50 bg-transparent transition-all duration-200"
-                      disabled={cartItems.length === 0}
-                    >
-                      View Bag
-                    </Button>
-                  </motion.div>
+                <div className="">
                   <motion.div
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}

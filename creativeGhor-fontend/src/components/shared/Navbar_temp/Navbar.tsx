@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -41,8 +42,14 @@ export const Navbar = () => {
     typeof window !== "undefined" && isUserLoggedIn && isUserLoggedIn();
   const userInfo =
     typeof window !== "undefined" && getUserInfo && getUserInfo();
-  const userRole = userInfo?.role as string;
-  const userName = userInfo?.name as string;
+  const userRole =
+    userInfo && typeof userInfo === "object" && "role" in userInfo
+      ? userInfo.role
+      : undefined;
+  const userName =
+    userInfo && typeof userInfo === "object" && "name" in userInfo
+      ? userInfo.name
+      : undefined;
 
   const handleDashboardClick = () => {
     if (userRole === "admin") {
@@ -128,7 +135,7 @@ export const Navbar = () => {
                   <User className="h-5 w-5" />
                   <span className="hidden sm:inline">
                     {userName
-                      ? userName
+                      ? String(userName)
                       : userRole === "admin"
                       ? "Admin"
                       : "User"}
@@ -156,7 +163,7 @@ export const Navbar = () => {
                 className="flex items-center space-x-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100 transition-all duration-200 rounded-lg px-3 py-2 relative"
               >
                 <ShoppingBag className="h-5 w-5" />
-                <span className="hidden sm:inline">{cartItemCount}</span>
+                {/* <span className="hidden sm:inline">{cartItemCount}</span> */}
                 {cartItemCount > 0 && (
                   <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center animate-pulse">
                     {cartItemCount}

@@ -74,6 +74,13 @@ const productApi = baseApi.injectEndpoints({
       },
       invalidatesTags: [tagTypes.product],
     }),
+    getProductsBySearch: build.query({
+      query: (searchTerm: string) => ({
+        url: `/products/search?q=${encodeURIComponent(searchTerm)}`,
+        method: "GET",
+      }),
+      providesTags: [tagTypes.product],
+    }),
   }),
 });
 
@@ -86,4 +93,5 @@ export const {
   useDeleteProductMutation,
   useGetSingleProductsQuery,
   useGetProductBySlugQuery,
+  useGetProductsBySearchQuery,
 } = productApi;
