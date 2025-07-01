@@ -2,7 +2,8 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { addToCart } from "@/redux/cartSlice";
 import { TProudct } from "@/types";
-import { Button } from "antd";
+
+import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { ProductImageGallery } from "./ProductImageGallery";
@@ -98,29 +99,14 @@ export function ProductCard({ productData }: { productData: TProudct }) {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-3">
-              <Button
-                type="default"
-                size="middle"
-                className="border-gray-300 w-full sm:w-auto"
-              >
+              <Button className="w-fit bg-black text-white hover:bg-gray-800 flex items-center justify-center space-x-2 transition-all duration-200">
                 View Info
               </Button>
               <Button
-                type="primary"
-                size="middle"
-                className="bg-blue-600 hover:bg-blue-800 w-full sm:w-auto"
+                className="w-fit bg-black text-white hover:bg-gray-800 flex items-center justify-center space-x-2 transition-all duration-200"
                 onClick={handleAddToCart}
               >
                 Add to Cart
-              </Button>
-              <Button
-                type="primary"
-                size="middle"
-                className="bg-gray-800 hover:bg-black w-full sm:w-auto"
-                onClick={handleBuyNow}
-                disabled={loading}
-              >
-                {loading ? "Redirecting..." : "Buy Now"}
               </Button>
             </div>
           </div>
